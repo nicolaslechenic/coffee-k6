@@ -1,0 +1,15 @@
+{
+    "name": "nicolaslechenic/coffee",
+    "autoload": {
+        "psr-4": {
+            "Nicolaslechenic\\Coffee\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nicolas LE CHENIC",
+            "email": "nicolaslechenic@gmail.com"
+        }
+    ],
+    "require": {}
+}
