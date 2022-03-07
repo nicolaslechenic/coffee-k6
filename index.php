@@ -41,39 +41,45 @@ $pdo2 =
     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
   );
 
-$sqlQuery = 'SELECT name FROM Waiter';
-$execQuery = $pdo->query($sqlQuery);
 
-$waiters = $execQuery->fetchAll();
-
-foreach ($waiters as $waiter) { print "<br/>" . $waiter['name']; }
-
-// Affichage des cafés à 1.3€
-echo("<h2>Cafés</h2>");
-
-$execCoffeeQuery = $pdo->query("SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3");
-$coffees = $execCoffeeQuery->fetchAll();
-
-foreach ($coffees as $coffee) {
-  print "<br/>" . $coffee['name'] . " | " . $coffee['price'] . "€";
+function toto() {
+  $sqlQuery = 'SELECT name FROM Waiter';
+  $execQuery = $pdo->query($sqlQuery);
+  
+  $waiters = $execQuery->fetchAll();
+  
+  foreach ($waiters as $waiter) { print "<br/>" . $waiter['name']; }
+  
+  // Affichage des cafés à 1.3€
+  echo("<h2>Cafés</h2>");
+  
+  $execCoffeeQuery = $pdo->query("SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3");
+  $coffees = $execCoffeeQuery->fetchAll();
+  
+  foreach ($coffees as $coffee) {
+    print "<br/>" . $coffee['name'] . " | " . $coffee['price'] . "€";
+  }
+  
+  // Afficher le total de la première facture
+  
+  echo("<h2>Total de la première facture</h2>");
+  
+  
+  $orderOne = "SELECT quantity, price FROM `OrderEdible` WHERE idOrder=1";
+  $execOrderOneQuery = $pdo->query($orderOne);
+  $orders = $execOrderOneQuery->fetchAll();
+  
+  $total = 0;
+  foreach($orders as $order) {
+    $total += ($order["price"] * $order["quantity"]);
+  }
+  print $total . "€";
+  
+  echo("<br/>");
 }
 
-// Afficher le total de la première facture
+toto();
 
-echo("<h2>Total de la première facture</h2>");
-
-
-$orderOne = "SELECT quantity, price FROM `OrderEdible` WHERE idOrder=1";
-$execOrderOneQuery = $pdo->query($orderOne);
-$orders = $execOrderOneQuery->fetchAll();
-
-$total = 0;
-foreach($orders as $order) {
-  $total += ($order["price"] * $order["quantity"]);
-}
-print $total . "€";
-
-echo("<br/>");
 
 
 
