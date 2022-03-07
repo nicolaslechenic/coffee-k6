@@ -42,7 +42,7 @@ $pdo2 =
   );
 
 
-function toto() {
+function toto($titi, $toto, $tata, $tutu, $plop) {
   $sqlQuery = 'SELECT name FROM Waiter';
   $execQuery = $pdo->query($sqlQuery);
   
@@ -78,7 +78,7 @@ function toto() {
   echo("<br/>");
 }
 
-toto();
+toto(0,0,0,0,0);
 
 
 
