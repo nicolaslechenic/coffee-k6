@@ -25,6 +25,22 @@ $pdo =
     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
   );
 
+$pdo1 = 
+  new PDO(
+    $path, 
+    $_ENV["DB_USERNAME"], 
+    $_ENV["DB_PASSWORD"], 
+    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+  );
+
+$pdo2 = 
+  new PDO(
+    $path, 
+    $_ENV["DB_USERNAME"], 
+    $_ENV["DB_PASSWORD"], 
+    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+  );
+
 $sqlQuery = 'SELECT name FROM Waiter';
 $execQuery = $pdo->query($sqlQuery);
 
