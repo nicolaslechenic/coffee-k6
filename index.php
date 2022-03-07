@@ -46,15 +46,12 @@ $execQuery = $pdo->query($sqlQuery);
 
 $waiters = $execQuery->fetchAll();
 
-foreach ($waiters as $waiter) {
-  print "<br/>" . $waiter['name'];
-}
+foreach ($waiters as $waiter) { print "<br/>" . $waiter['name']; }
 
 // Affichage des cafés à 1.3€
 echo("<h2>Cafés</h2>");
 
-$coffeeQuery = "SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3";
-$execCoffeeQuery = $pdo->query($coffeeQuery);
+$execCoffeeQuery = $pdo->query("SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3");
 $coffees = $execCoffeeQuery->fetchAll();
 
 foreach ($coffees as $coffee) {
