@@ -3,12 +3,14 @@
 require('vendor/autoload.php');
 use Carbon\Carbon;
 
+
 if($_SERVER['HTTP_HOST'] !=  "coffee-k6-nlc.herokuapp.com") {
   $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
   $dotenv->load();
 }
 
-
+require('./Waiter.php');
+require('./Edible.php');
 
 echo("Hello world !");
 
@@ -25,62 +27,53 @@ $pdo =
     array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
   );
 
-$pdo1 = 
-  new PDO(
-    $path, 
-    $_ENV["DB_USERNAME"], 
-    $_ENV["DB_PASSWORD"], 
-    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
-  );
+$waiters = Waiter::all();
+foreach ($waiters as $waiter) { print "<br/>" . $waiter->getFormatedName(); }
 
-$pdo2 = 
-  new PDO(
-    $path, 
-    $_ENV["DB_USERNAME"], 
-    $_ENV["DB_PASSWORD"], 
-    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
-  );
+$edibles = Edible::all();
+foreach ($edibles as $edible) { print "<br/>" . $edible->getName(); }
 
 
-function toto($titi, $toto, $tata, $tutu, $plop) {
-  $sqlQuery = 'SELECT name FROM Waiter';
-  $execQuery = $pdo->query($sqlQuery);
-  
-  $waiters = $execQuery->fetchAll();
-  
-  foreach ($waiters as $waiter) { print "<br/>" . $waiter['name']; }
-  
-  // Affichage des cafés à 1.3€
-  echo("<h2>Cafés</h2>");
-  
-  $execCoffeeQuery = $pdo->query("SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3");
-  $coffees = $execCoffeeQuery->fetchAll();
-  
-  foreach ($coffees as $coffee) {
-    print "<br/>" . $coffee['name'] . " | " . $coffee['price'] . "€";
-  }
-  
-  // Afficher le total de la première facture
-  
-  echo("<h2>Total de la première facture</h2>");
-  
-  
-  $orderOne = "SELECT quantity, price FROM `OrderEdible` WHERE idOrder=1";
-  $execOrderOneQuery = $pdo->query($orderOne);
-  $orders = $execOrderOneQuery->fetchAll();
-  
-  $total = 0;
-  foreach($orders as $order) {
-    $total += ($order["price"] * $order["quantity"]);
-  }
-  print $total . "€";
-  
-  echo("<br/>");
+
+$jeanne = Waiter::find(1);
+var_dump($jeanne);
+
+$expresso = Edible::find(2);
+var_dump($expresso);
+
+
+
+
+die();
+
+
+
+// Affichage des cafés à 1.3€
+echo("<h2>Cafés</h2>");
+
+$execCoffeeQuery = $pdo->query("SELECT name, price FROM Edible WHERE FORMAT(price, 1) = 1.3");
+$coffees = $execCoffeeQuery->fetchAll();
+
+foreach ($coffees as $coffee) {
+  print "<br/>" . $coffee['name'] . " | " . $coffee['price'] . "€";
 }
 
-toto(0,0,0,0,0);
+// Afficher le total de la première facture
+
+echo("<h2>Total de la première facture</h2>");
 
 
+$orderOne = "SELECT quantity, price FROM `OrderEdible` WHERE idOrder=1";
+$execOrderOneQuery = $pdo->query($orderOne);
+$orders = $execOrderOneQuery->fetchAll();
+
+$total = 0;
+foreach($orders as $order) {
+  $total += ($order["price"] * $order["quantity"]);
+}
+print $total . "€";
+
+echo("<br/>");
 
 
 // Afficher le CA du serveur 2
@@ -196,47 +189,3 @@ foreach($albanOrders as $order) {
 
   echo $order["waiter"] . " | " . $carbon->locale('fr')->diffForHumans() . "   |   " .$order["turnover"] . "€</br>";
 }
-
-
-
-// SELECT e.name, SUM(oe.quantity) AS total FROM `OrderEdible` AS oe INNER JOIN `Edible` AS e ON e.id = oe.idEdible GROUP BY oe.idEdible ORDER BY total DESC LIMIT 1) max_vals
-
-// SELECT max_vals.total FROM (SELECT e.name, SUM(oe.quantity) AS total FROM `OrderEdible` AS oe INNER JOIN `Edible` AS e ON e.id = oe.idEdible GROUP BY oe.idEdible ORDER BY total DESC LIMIT 1) max_vals;
-
-
-
-// On récupère la plus grande quantité :
-// SELECT SUM(oe.quantity) AS total 
-// FROM `OrderEdible` AS oe 
-// INNER JOIN `Edible` AS e 
-// ON e.id = oe.idEdible 
-// GROUP BY oe.idEdible 
-// ORDER BY total DESC LIMIT 1;
-
-// DELIMITER$$
-// CREATE FUNCTION bestSeller() RETURN INT(11)
-//   BEGIN
-//     SET @maxVal = (SELECT SUM(oe.quantity) AS total 
-//       FROM `OrderEdible` AS oe 
-//       INNER JOIN `Edible` AS e 
-//       ON e.id = oe.idEdible 
-//       GROUP BY oe.idEdible 
-//       ORDER BY total DESC LIMIT 1);
-//     RETURN @maxVal;
-//   END$$
-// DELIMITER;
-
-// SELECT e.name, SUM(oe.quantity) AS total 
-// FROM `OrderEdible` AS oe 
-// INNER JOIN `Edible` AS e 
-// ON e.id = oe.idEdible
-// GROUP BY oe.idEdible  
-// HAVING total = (SELECT SUM(oe.quantity) AS total 
-// FROM `OrderEdible` AS oe 
-// INNER JOIN `Edible` AS e 
-// ON e.id = oe.idEdible 
-// GROUP BY oe.idEdible 
-// ORDER BY total DESC LIMIT 1);
-
-
-
