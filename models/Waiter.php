@@ -1,15 +1,8 @@
 <?php	
 
-require_once("./CoffeeORM.php");
+require_once(__DIR__ . "/CoffeeORM.php");
 
-class Waiter extends CoffeeORM{
-  public static function find($id) {
-    $req = self::connect()->prepare('SELECT id, name FROM Waiter WHERE id = :id');
-    $req->execute(array(':id' => $id));
-
-    return new self($req->fetch());
-  }
-	
+class Waiter extends CoffeeORM{	
   private $id;
   private $name;
 	

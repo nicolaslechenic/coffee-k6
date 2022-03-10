@@ -1,7 +1,6 @@
 <?php
-  if(isset($_POST)) {
-    echo($_POST["email"]);
-  }
+echo($_SERVER["REQUEST_URI"]);
+
 ?>
 
 <!DOCTYPE html>
