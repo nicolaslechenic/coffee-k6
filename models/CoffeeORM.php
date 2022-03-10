@@ -47,7 +47,4 @@ class CoffeeORM {
 
     return new $child($req->fetch());
   }
-
-
-
 }

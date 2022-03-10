@@ -16,13 +16,13 @@ require('./controllers/EdiblesController.php');
 $route = $_SERVER['REQUEST_URI'];
 
 $params = explode('/', $route);
-$controllerName = ucfirst("{$params[1]}Controller");
-$method = $params[2];
-$id = $params[3];
-
-$controller = new $controllerName();
+$controllerName = ucfirst("{$params[1]}Controller") ?? false;
+$method = $params[2] ?? false;
+$id = $params[3] ?? false;
 
 if(isset($controller) && isset($method)) {
+  $controller = new $controllerName();
+
   if(isset($id)) {
     $controller->$method($id);
   } else {
