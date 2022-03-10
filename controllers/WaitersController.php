@@ -10,7 +10,7 @@ class WaitersController extends ApplicationController {
 
   public function show($id) {
     $waiter = Waiter::find($id);
-
+    
     require self::loadPage();
   }
 }

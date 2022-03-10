@@ -1,7 +1,5 @@
 <?php	
 
-require_once(__DIR__ . "/CoffeeORM.php");
-
 class Waiter extends CoffeeORM{	
   private $id;
   private $name;

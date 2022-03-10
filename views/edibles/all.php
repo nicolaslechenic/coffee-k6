@@ -1,8 +1,11 @@
-<h1>Hello</h1>
-<?php
+<?php ob_start(); ?>
+<h1>All edibles</h1>
 
-foreach($edibles as $edible) { ?>
-
-  <p><?=  $edible->getName(); ?></p>
-
+<?php foreach($edibles as $edible) { ?>
+  <p><?= $edible->getName(); ?></p>
 <?php }; ?>
+
+<?php 
+  $yield = ob_clean(); 
+  require './views/templates/layout.php';
+?>

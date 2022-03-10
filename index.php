@@ -7,11 +7,12 @@ if($_SERVER['HTTP_HOST'] !=  "coffee-k6-nlc.herokuapp.com") {
   $dotenv->load();
 }
 
-require('./models/Waiter.php');
-require('./models/Edible.php');
-require('./controllers/ApplicationController.php');
-require('./controllers/WaitersController.php');
-require('./controllers/EdiblesController.php');
+require_once('./models/CoffeeORM.php');
+require_once('./models/Waiter.php');
+require_once('./models/Edible.php');
+require_once('./controllers/ApplicationController.php');
+require_once('./controllers/WaitersController.php');
+require_once('./controllers/EdiblesController.php');
 
 $route = $_SERVER['REQUEST_URI'];
 
@@ -20,12 +21,16 @@ $controllerName = ucfirst("{$params[1]}Controller") ?? false;
 $method = $params[2] ?? false;
 $id = $params[3] ?? false;
 
-if(isset($controller) && isset($method)) {
+if(isset($controllerName) && isset($method)) {
   $controller = new $controllerName();
 
-  if(isset($id)) {
-    $controller->$method($id);
-  } else {
-    $controller->$method();
+  try {
+    if(isset($id)) {
+      $controller->$method($id);
+    } else {
+      $controller->$method();
+    }
+  } catch (Error $e) {
+    require './views/templates/404.php';
   }
-}
+} 

@@ -1,8 +1,11 @@
-<h1>Hello</h1>
-<?php
+<?php ob_start(); ?>
+<h1>All waiters</h1>
 
-foreach($waiters as $waiter) { ?>
-
-  <p><?=  $waiter->getName(); ?></p>
-
+<?php foreach($waiters as $waiter) { ?>
+  <p><?= $waiter->getName(); ?></p>
 <?php }; ?>
+
+<?php 
+  $yield = ob_clean(); 
+  require './views/templates/layout.php';
+?>
