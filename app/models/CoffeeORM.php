@@ -22,6 +22,12 @@ class CoffeeORM {
     }
   }
 
+  public static function clean() {
+    $db = self::connect();
+    $kls = get_called_class();
+    $db->query("DELETE FROM {$kls}");
+  }
+
   public static function all() {
     $objects = [];
 
@@ -46,5 +52,26 @@ class CoffeeORM {
     $req->execute(array(':id' => $id));
 
     return new $child($req->fetch());
+  }
+
+  private $table;
+
+  protected function __construct() {
+    $this->table = get_called_class();
+  }
+
+  public function save() {
+    $db = self::connect();
+    $data = get_object_vars($this);
+    unset($data['table']);
+    unset($data['id']);
+
+    $v = array_values($data);
+    $values = join("','", $v);
+    
+    $keys = array_keys($data);
+    $columns = join(",", $keys);
+
+    $db->query("INSERT INTO {$this->table}({$columns}) VALUES('{$values}')");
   }
 }

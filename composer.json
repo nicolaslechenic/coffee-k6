@@ -12,6 +12,7 @@
         }
     ],
     "require": {
+        "peridot-php/peridot": "^1.19",
         "vlucas/phpdotenv": "^5.4",
         "nesbot/carbon": "^2.57"
     }

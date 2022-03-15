@@ -13,4 +13,14 @@ class WaitersController extends ApplicationController {
     
     require self::loadPage();
   }
+
+  public function create() { require self::loadPage(); }
+  public function insert() {
+    $sanitizer = new WaiterSanitizer($_POST);
+    $waiter = new Waiter($sanitizer->call());
+
+    $waiter->save();
+
+    self::redirect('/waiters/all');
+  }
 }

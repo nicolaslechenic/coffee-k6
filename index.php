@@ -7,12 +7,15 @@ if($_SERVER['HTTP_HOST'] !=  "coffee-k6-nlc.herokuapp.com") {
   $dotenv->load();
 }
 
-require_once('./models/CoffeeORM.php');
-require_once('./models/Waiter.php');
-require_once('./models/Edible.php');
-require_once('./controllers/ApplicationController.php');
-require_once('./controllers/WaitersController.php');
-require_once('./controllers/EdiblesController.php');
+
+require_once('./app/sanitizers/WaiterSanitizer.php');
+require_once('./app/sanitizers/EdibleSanitizer.php');
+require_once('./app/models/CoffeeORM.php');
+require_once('./app/models/Waiter.php');
+require_once('./app/models/Edible.php');
+require_once('./app/controllers/ApplicationController.php');
+require_once('./app/controllers/WaitersController.php');
+require_once('./app/controllers/EdiblesController.php');
 
 $route = $_SERVER['REQUEST_URI'];
 
@@ -23,7 +26,7 @@ $id = $params[3] ?? false;
 
 if(isset($controllerName) && isset($method)) {
   $controller = new $controllerName();
-
+  
   try {
     if(isset($id)) {
       $controller->$method($id);
@@ -31,6 +34,6 @@ if(isset($controllerName) && isset($method)) {
       $controller->$method();
     }
   } catch (Error $e) {
-    require './views/templates/404.php';
+    require './app/views/templates/404.php';
   }
 } 
