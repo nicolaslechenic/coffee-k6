@@ -2,8 +2,9 @@
 
 <h1>Create waiter</h1>
 
-<form action="/waiters/insert" method="POST">
+<form action="/waiters/insert" method="POST" enctype='multipart/form-data'>
   <input type="text" name="name">
+  <input type="file" name="toto">
   <input type="submit" value="Ajouter un serveur">
 </form>
 

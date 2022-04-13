@@ -5,18 +5,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $title; ?></title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
+  <link rel="stylesheet" href="./app/assets/styles/reset.css">
+  <link rel="stylesheet" href="./app/assets/styles/variables.css">
+  <link rel="stylesheet" href="./app/assets/styles/style.css">
+  <script src="./app/assets/javascripts/burger.js" defer></script>
+
+
+
+
+  <!-- Installer npm install css-minify -g -->
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light">
+  <nav class="hidden navbar navbar-light bg-light">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         Mon super site
       </a>
+      <a href="/waiters/all">Mes serveurs</a>
+      <a href="/edibles/all">Mes cafés</a>
     </div>
   </nav>
 
+  <div id="burger">
+    <a id="btn-burger" href="/statics/menu">🍔</a>
+  </div>
+
+  <nav id="nav-links" class="hidden">
+    <a href="/waiters/all">Mes serveurs</a>
+    <a href="/edibles/all">Mes cafés</a>
+  </nav>
+
   <?= $yield; ?>
+
+
 </body>
 </html>

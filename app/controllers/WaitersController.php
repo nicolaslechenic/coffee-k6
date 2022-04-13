@@ -16,6 +16,9 @@ class WaitersController extends ApplicationController {
 
   public function create() { require self::loadPage(); }
   public function insert() {
+
+    var_dump($_FILES);die();
+
     $sanitizer = new WaiterSanitizer($_POST);
     $waiter = new Waiter($sanitizer->call());
 

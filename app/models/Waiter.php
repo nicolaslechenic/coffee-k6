@@ -1,6 +1,6 @@
 <?php	
 
-class Waiter extends CoffeeORM{	
+class Waiter extends CoffeeORM {	
   protected $id;
   protected $name;
 	

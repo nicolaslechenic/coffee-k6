@@ -13,18 +13,22 @@ require_once('./app/sanitizers/EdibleSanitizer.php');
 require_once('./app/models/CoffeeORM.php');
 require_once('./app/models/Waiter.php');
 require_once('./app/models/Edible.php');
+require_once('./app/models/Slide.php');
 require_once('./app/controllers/ApplicationController.php');
+require_once('./app/controllers/StaticsController.php');
+require_once('./app/controllers/SlidesController.php');
 require_once('./app/controllers/WaitersController.php');
 require_once('./app/controllers/EdiblesController.php');
 
 $route = $_SERVER['REQUEST_URI'];
 
+
 $params = explode('/', $route);
 $controllerName = ucfirst("{$params[1]}Controller") ?? false;
 $method = $params[2] ?? false;
-$id = $params[3] ?? false;
+$id = $params[3] ?? false; // => $params[3]?? 
 
-if(isset($controllerName) && isset($method)) {
+if($controllerName && $method) {
   $controller = new $controllerName();
   
   try {
@@ -36,4 +40,9 @@ if(isset($controllerName) && isset($method)) {
   } catch (Error $e) {
     require './app/views/templates/404.php';
   }
-} 
+} elseif(empty($params[1])) {
+  $slides = new SlidesController();
+  $slides->home();
+} else {
+  require './app/views/templates/404.php';
+}
